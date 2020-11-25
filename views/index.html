@@ -25,15 +25,15 @@
 <body>
 
     <body>
-
-        <!-- Add your site or application content here -->
+        <header>  <h1 style="color: black">The Top 5 Twitch Streamers</h1>
+        <div class="container container-fluid" style="margin-bottom: 15px">
+            <input type="text" id="search" />
+            <button id="user-search">Search by User</button>
+            <button id="refresh">Refresh</button>
+          </div></header>
         <main>
-            <h1 style="color: black">The Top 5 Twitch Streamers</h1>
-            <div class="container container-fluid" style="margin-bottom: 15px">
-                <input type="text" id="search" />
-                <button id="user-search">Search by User</button>
-
-            </div>
+          
+            
 
         </main>
         <script type="text/javascript">
@@ -50,7 +50,7 @@
                 newContainer.innerHTML += `<img src=${info.thumbnail_url}>`;
                 newContainer.innerHTML += `<p>VIEWER COUNT: ${info.viewer_count}</p>`;
                 newContainer.innerHTML += "<button class='remove'>Remove this</button>";
-                document.querySelector("main").appendChild(newContainer);
+                document.querySelector("main").prepend(newContainer);
                 newContainer.querySelector(".remove").addEventListener("click", function(){
                   newContainer.parentNode.removeChild(newContainer);
                 });
@@ -68,8 +68,8 @@
                     }
                 });
             }
-                   
-           twitchCall().then(function(res) {              
+          const getTopFive = ()=>{
+            twitchCall().then(function(res) {              
                 let results = res.data.slice(0, 5);
                 let displayDetails = results.map((result) =>{
                     result.thumbnail_url = result.thumbnail_url.replace(/{height}/, "100")
@@ -82,6 +82,7 @@
             }).catch(function (err) {
                 console.log(err);
             });
+          }   
 
             const getUser = () => {
               //OgamingSC2
@@ -98,7 +99,6 @@
               }).then(function(){
                 return twitchCall(urlAddon);
               }).then(data => {
-                    //do stuff with data
                     let formattedData = data["data"][0];
                     formattedData.thumbnail_url = formattedData.thumbnail_url.replace(/{height}/, "100")
                         .replace(/{width}/, "100");
@@ -112,7 +112,12 @@
                         .value="";
             }
 
+            getTopFive();
             document.getElementById("user-search").addEventListener("click", getUser);
+            document.getElementById("refresh").addEventListener("click", ()=>{
+              document.querySelector("main").innerHTML="";
+              getTopFive(); });
+
         </script>
     </body>
 
