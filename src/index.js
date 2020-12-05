@@ -22,8 +22,8 @@ const twitchCall = (url = "") => {
     return $.ajax({
         url: "https://api.twitch.tv/helix/streams" + url,
         headers: {
-            "Authorization": "Bearer p9z1a915572mw91xpd7swjk4m2hsho",
-            "Client-ID": "5y0vg6nkl91uo7hhvh1epi93nd6e4q"
+            "Authorization": "Bearer",
+            "Client-ID": ""
         }
     });
 }
